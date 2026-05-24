@@ -27,7 +27,7 @@ export default function Navbar() {
           <a href="#features" className="nav-link">Features</a>
           <a href="#demo" className="nav-link">Demo</a>
           <a
-            href="https://github.com/tig5389-prog/DFM_Frontend-01-11-25"
+            href="https://github.com/Arnab-dot/Technical_Document_Generator"
             target="_blank"
             rel="noopener noreferrer"
             className="nav-link"
@@ -58,7 +58,7 @@ export default function Navbar() {
           <a href="#features" className="mobile-link" onClick={() => setMobileOpen(false)}>Features</a>
           <a href="#demo" className="mobile-link" onClick={() => setMobileOpen(false)}>Demo</a>
           <a
-            href="https://github.com/tig5389-prog/DFM_Frontend-01-11-25"
+            href="https://github.com/Arnab-dot/Technical_Document_Generator"
             target="_blank"
             rel="noopener noreferrer"
             className="mobile-link"
