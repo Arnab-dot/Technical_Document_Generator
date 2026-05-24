@@ -1,85 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical Documentation Generator</title>
-    <!-- Marked.js for Markdown rendering -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Highlight.js for Code syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <!-- JSZip for exporting zip files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Technical Documentation Generator</h1>
-            <p>Generate detailed technical documentation from GitHub PRs or raw code.</p>
-        </header>
-
-        <div id="error-banner" class="error-banner hidden"></div>
-
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="pr-tab">PR URL</button>
-            <button class="tab-btn" data-tab="code-tab">Paste Code</button>
-            <button id="reset-btn" class="reset-btn">Reset</button>
-        </div>
-
-        <div class="tab-content active" id="pr-tab">
-            <div class="input-group">
-                <label for="pr-url">GitHub Pull Request URL</label>
-                <input type="text" id="pr-url" placeholder="https://github.com/owner/repo/pull/123">
-            </div>
-            <button id="generate-pr-btn" class="primary-btn">Generate Documentation</button>
-        </div>
-
-        <div class="tab-content" id="code-tab">
-            <div class="input-group">
-                <label for="filename">Filename</label>
-                <input type="text" id="filename" placeholder="e.g., main.py">
-            </div>
-            <div class="input-group">
-                <label for="raw-code">Raw Code</label>
-                <textarea id="raw-code" rows="10" placeholder="Paste your code here..."></textarea>
-            </div>
-            <button id="generate-code-btn" class="primary-btn">Generate Documentation</button>
-        </div>
-
-        <div id="loading-indicator" class="loading-indicator hidden">
-            <div class="spinner"></div>
-            <span id="loading-message">Working...</span>
-        </div>
-
-        <div id="results-section" class="results-section hidden">
-            <div class="results-header">
-                <h2>Generated Documentation</h2>
-                <button id="download-all-btn" class="secondary-btn">Download All (.zip)</button>
-            </div>
-            <div class="results-layout">
-                <div class="file-list-container">
-                    <h3>Files</h3>
-                    <ul id="file-list" class="file-list">
-                        <!-- File items will be populated here -->
-                    </ul>
-                </div>
-                <div class="doc-panel-container">
-                    <div class="doc-panel-header">
-                        <h3 id="current-doc-title">Select a file</h3>
-                        <button id="copy-doc-btn" class="secondary-btn hidden">Copy Markdown</button>
-                        <span id="copy-confirm" class="copy-confirm hidden">Copied!</span>
-                    </div>
-                    <div id="doc-content" class="doc-content markdown-body">
-                        <!-- Rendered markdown will appear here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="DocDraft AI — AI-powered technical documentation generator. Generate docs from GitHub PRs and code in seconds." />
+    <title>DocDraft AI — Documentation That Writes Itself</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

@@ -1,0 +1,66 @@
+.how-it-works {
+  text-align: center;
+}
+
+.how-heading {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.how-subheading {
+  font-size: 18px;
+  margin-bottom: 56px;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.step-card {
+  padding: 32px 28px;
+  text-align: left;
+  position: relative;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  margin-bottom: 20px;
+}
+
+.step-badge span {
+  font-family: var(--font-mono-label);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent-teal);
+}
+
+.step-icon {
+  margin-bottom: 20px;
+}
+
+.step-title {
+  font-size: 22px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.step-desc {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .how-heading {
+    font-size: 32px;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

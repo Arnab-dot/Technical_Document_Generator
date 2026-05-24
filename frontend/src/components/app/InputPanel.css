@@ -1,0 +1,71 @@
+.input-panel {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.panel-header {
+  margin-bottom: 20px;
+}
+
+.panel-label {
+  font-size: 13px;
+  color: var(--accent-teal);
+  letter-spacing: 0.1em;
+}
+
+.input-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-tab-content .label-text {
+  margin-bottom: 4px;
+}
+
+.file-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-check input[type="checkbox"] {
+  accent-color: var(--accent-teal);
+  width: 16px;
+  height: 16px;
+}
+
+.generate-btn {
+  width: 100%;
+}
+
+.generate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.trust-box {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--accent-teal);
+  background: rgba(0, 212, 170, 0.03);
+  border-radius: 0 10px 10px 0;
+}
+
+.supported-types {
+  margin-top: auto;
+  padding-top: 20px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .input-panel {
+    padding: 20px;
+    height: auto;
+    min-height: 400px;
+  }
+}
