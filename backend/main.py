@@ -10,7 +10,7 @@ load_dotenv()
 
 app = FastAPI(
     title="Technical Documentation Generator API",
-    description="API for generating technical documentation using Claude and GitHub",
+    description="API for generating technical documentation using Gemini and GitHub",
     version="1.0.0"
 )
 

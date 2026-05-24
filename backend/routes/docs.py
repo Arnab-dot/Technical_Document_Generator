@@ -3,7 +3,7 @@ import pathlib
 from fastapi import APIRouter, HTTPException, status
 from models.schemas import PRGenerateRequest, CodeGenerateRequest, DocGenerateResponse
 from services.github import GitHubService, GitHubRateLimitError
-from services.claude import ClaudeService
+from services.gemini import GeminiService
 from utils.chunking import chunk_code, clean_git_patch
 
 router = APIRouter(prefix="/docs", tags=["Documentation"])
@@ -12,13 +12,13 @@ ALLOWED_EXTENSIONS = {'.py', '.js', '.ts', '.java', '.go', '.rs', '.cpp', '.c', 
 
 def get_services():
     github_token = os.getenv("GITHUB_TOKEN")
-    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
-    if not github_token or not anthropic_key:
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if not github_token or not gemini_key:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
             detail="Server configuration error: Missing API keys in environment variables."
         )
-    return GitHubService(token=github_token), ClaudeService(api_key=anthropic_key)
+    return GitHubService(token=github_token), GeminiService(api_key=gemini_key)
 
 def get_prompts():
     """
@@ -42,10 +42,10 @@ def get_prompts():
 @router.post("/generate/from-pr", response_model=list[DocGenerateResponse])
 async def generate_from_pr(request: PRGenerateRequest):
     """
-    Fetch a PR from GitHub, filter valid code files, chunk their diffs, 
-    and generate comprehensive markdown documentation using Claude.
+    Fetch a PR from GitHub, filter valid code files, chunk their diffs,
+    and generate comprehensive markdown documentation using Gemini.
     """
-    github_service, claude_service = get_services()
+    github_service, gemini_service = get_services()
     system_prompt, user_prompt = get_prompts()
     
     try:
@@ -81,7 +81,7 @@ async def generate_from_pr(request: PRGenerateRequest):
         language = ext[1:] if len(ext) > 1 else "text"
         
         try:
-            markdown_doc = await claude_service.generate_documentation(
+            markdown_doc = await gemini_service.generate_documentation(
                 chunks=chunks,
                 filename=filename,
                 language=language,
@@ -98,9 +98,9 @@ async def generate_from_pr(request: PRGenerateRequest):
 @router.post("/generate/from-code", response_model=list[DocGenerateResponse])
 async def generate_from_code(request: CodeGenerateRequest):
     """
-    Accepts raw code string directly, chunks it, and generates documentation using Claude.
+    Accepts raw code string directly, chunks it, and generates documentation using Gemini.
     """
-    _, claude_service = get_services()
+    _, gemini_service = get_services()
     system_prompt, user_prompt = get_prompts()
     
     if not request.code.strip():
@@ -110,7 +110,7 @@ async def generate_from_code(request: CodeGenerateRequest):
     language = request.language if request.language else "text"
     
     try:
-        markdown_doc = await claude_service.generate_documentation(
+        markdown_doc = await gemini_service.generate_documentation(
             chunks=chunks,
             filename=request.filename,
             language=language,
