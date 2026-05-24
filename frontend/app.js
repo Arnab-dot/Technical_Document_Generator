@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showLoading('Fetching PR files and generating docs...');
         
         try {
-            const response = await fetch(`${API_BASE_URL}/generate/from-pr`, {
+            const response = await fetch(`${API_BASE_URL}/api/v1/docs/generate/from-pr`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ pr_url: prUrl })
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showLoading(`Generating docs for ${filename}...`);
 
         try {
-            const response = await fetch(`${API_BASE_URL}/generate/from-code`, {
+            const response = await fetch(`${API_BASE_URL}/api/v1/docs/generate/from-code`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code: code, filename: filename })

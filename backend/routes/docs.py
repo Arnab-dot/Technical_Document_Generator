@@ -8,7 +8,7 @@ from utils.chunking import chunk_code, clean_git_patch
 
 router = APIRouter(prefix="/docs", tags=["Documentation"])
 
-ALLOWED_EXTENSIONS = {'.py', '.js', '.ts', '.java', '.go', '.rs', '.cpp', '.c', '.cs', '.rb'}
+ALLOWED_EXTENSIONS = {'.py', '.js', '.ts', '.jsx', '.tsx', '.java', '.go', '.rs', '.cpp', '.c', '.cs', '.rb', '.php', '.swift', '.kt', '.scala', '.r', '.sh', '.bash', '.sql', '.html', '.css', '.json', '.yaml', '.yml', '.xml', '.md'}
 
 def get_services():
     github_token = os.getenv("GITHUB_TOKEN")
@@ -57,7 +57,14 @@ async def generate_from_pr(request: PRGenerateRequest):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=f"GitHub API Error: {str(e)}")
 
+    if not pr_files:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="PR not found or has no files. Please check the PR URL."
+        )
+
     results = []
+    filtered_count = 0
     
     for file_info in pr_files:
         filename = file_info.get("filename", "")
@@ -66,14 +73,17 @@ async def generate_from_pr(request: PRGenerateRequest):
         
         # Skip removed files or binary files with no patch
         if not filename or file_status == "removed" or not patch:
+            filtered_count += 1
             continue
             
         ext = pathlib.Path(filename).suffix.lower()
         if ext not in ALLOWED_EXTENSIONS:
+            filtered_count += 1
             continue
             
         cleaned_code = clean_git_patch(patch)
         if not cleaned_code.strip():
+            filtered_count += 1
             continue
             
         # Chunk with max token equivalent of ~4000
@@ -92,6 +102,14 @@ async def generate_from_pr(request: PRGenerateRequest):
         except Exception as e:
             # We don't fail the entire PR if one file's generation fails
             results.append(DocGenerateResponse(filename=filename, markdown=f"Error generating documentation: {str(e)}"))
+
+    if not results:
+        supported_exts = ", ".join(sorted(ALLOWED_EXTENSIONS))
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"No documentation generated. The PR has {len(pr_files)} file(s), but {filtered_count} were filtered out. "
+                   f"Supported file types: {supported_exts}. Please check if the PR contains supported code files."
+        )
 
     return results
 
